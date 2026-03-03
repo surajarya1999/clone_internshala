@@ -91,6 +91,7 @@ export default function SvgSlider() {
       pattern: "pattern-1",
       title: "Start Your Career Journey",
       bgColor: "bg-indigo-600",
+      
     },
     {
       pattern: "pattern-2",
@@ -143,7 +144,7 @@ export default function SvgSlider() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 text-center sm:px-6 lg:px-8 py-8">
         {/* hero section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -166,7 +167,7 @@ export default function SvgSlider() {
               <SwiperSlide key={index}>
                 <div className={`relative h-[400px] ${slide.bgColor}`}>
                   {/* SVG Pattern Background */}
-                  <div className="absolute inset-0 opacity-20">
+                  <div className="absolute inset-0 opacity-20 ">
                     <svg
                       className="w-full h-full"
                       xmlns="http://www.w3.org/2000/svg"
@@ -179,8 +180,9 @@ export default function SvgSlider() {
                           width="20"
                           height="20"
                           patternUnits="userSpaceOnUse"
+                        
                         >
-                          <circle cx="10" cy="10" r="3" fill="white" />
+                          <circle cx="10" cy="10" r="3" fill="white"  />
                         </pattern>
                       )}
                       {slide.pattern === "pattern-2" && (
@@ -216,7 +218,7 @@ export default function SvgSlider() {
                       {slide.pattern === "pattern-4" && (
                         <pattern
                           id="pattern-4"
-                          x="0"
+                          x="5"
                           y="0"
                           width="60"
                           height="60"

@@ -106,6 +106,7 @@ import axios from 'axios';
 // ];
 
 const index = () => {
+    
     const [filteredjob, setfilteredjobs] = useState<any>([]);
     const [isFiltervisible, setisFiltervisible] = useState(false);
     const [filter, setfilters] = useState({
@@ -131,7 +132,7 @@ const index = () => {
     }, [])
 
     useEffect(() => {
-        const filtered = filteredJobs.filter((job:any) => {
+        const filtered = filteredJobs.filter((job: any) => {
             const matchesCategory = job.category
                 .toUpperCase()
                 .includes(filter.category.toLowerCase());
@@ -345,103 +346,109 @@ const index = () => {
             </div>
             {/* Mobile Filters Modal */}
             {isFiltervisible && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
-                    <div className="bg-white h-full w-full max-w-sm ml-auto p-6 overflow-y-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-lg font-bold">Filters</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden transition-opacity">
+                    {/* Sidebar Container */}
+                    <div className="bg-white h-full w-auto max-w-md ml-auto flex flex-col shadow-2xl animate-slide-in">
+
+                        {/* 1. Header (Fixed) */}
+                        <div className="flex justify-between items-center p-6 border-b">
+                            <h2 className="text-xl font-bold text-gray-800">Filters</h2>
                             <button
                                 onClick={() => setisFiltervisible(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                             >
-                                <X className="h-6 w-6" />
+                                <X className="h-6 w-6 text-gray-500" />
                             </button>
                         </div>
-                        <div className="space-y-6">
-                            {/* Profile/Category Filter */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Category
-                                </label>
-                                <input
-                                    type="text"
-                                    name="category"
-                                    value={filter.category}
-                                    onChange={handlefilterchange}
-                                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-700"
-                                    placeholder="e.g. Marketing Intern"
-                                />
-                            </div>
-                            {/* Location Filter */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Location
-                                </label>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    value={filter.location}
-                                    onChange={handlefilterchange}
-                                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-700"
-                                    placeholder="e.g. Mumbai"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Experience
-                                </label>
-                                <input
-                                    type="text"
-                                    name="experience"
-                                    value={filter.experience}
-                                    onChange={handlefilterchange}
-                                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-700"
-                                    placeholder="e.g. Mumbai"
-                                />
-                            </div>
-                            {/* Checkboxes */}
-                            <div className="space-y-3">
-                                <label className="flex items-center space-x-2">
-                                    <input
-                                        type="checkbox"
-                                        name="workFromHome"
-                                        checked={filter.workFromHome}
-                                        onChange={handlefilterchange}
-                                        className="h-4 w-4 text-blue-600 rounded "
-                                    />
-                                    <span className="text-gray-700">Work from home</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                    <input
-                                        type="checkbox"
-                                        name="partTime"
-                                        checked={filter.partTime}
-                                        onChange={handlefilterchange}
-                                        className="h-4 w-4 text-blue-600 rounded"
-                                    />
-                                    <span className="text-gray-700">Part-time</span>
-                                </label>
-                            </div>
 
-                            {/* Stipend Range */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Annula Salary (₹ in lakhs)
-                                </label>
-                                <input
-                                    type="range"
-                                    name="salary"
-                                    min="0"
-                                    max="100"
-                                    value={filter.salary}
-                                    onChange={handlefilterchange}
-                                    className="w-full"
-                                />
-                                <div className="flex justify-between text-sm text-gray-600">
-                                    <span>₹0L</span>
-                                    <span>₹50L</span>
-                                    <span>₹100L</span>
+                        {/* 2. Scrollable Content Area */}
+                        <div className="flex-1 overflow-y-auto p-6 pb-32"> {/* pb-32 space for bottom buttons */}
+                            <div className="space-y-6">
+                                {/* Category Filter */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                                    <input
+                                        type="text"
+                                        name="category"
+                                        value={filter.category}
+                                        onChange={handlefilterchange}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                                        placeholder="e.g. Marketing Intern"
+                                    />
+                                </div>
+
+                                {/* Location Filter */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        value={filter.location}
+                                        onChange={handlefilterchange}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                                        placeholder="e.g. Mumbai"
+                                    />
+                                </div>
+
+                                {/* Checkboxes */}
+                                <div className="bg-gray-50 p-4 rounded-xl space-y-4">
+                                    <label className="flex items-center justify-between cursor-pointer">
+                                        <span className="text-gray-700 font-medium">Work from home</span>
+                                        <input
+                                            type="checkbox"
+                                            name="workFromHome"
+                                            checked={filter.workFromHome}
+                                            onChange={handlefilterchange}
+                                            className="h-5 w-5 text-blue-600 rounded-md border-gray-300 focus:ring-blue-500"
+                                        />
+                                    </label>
+                                    <label className="flex items-center justify-between cursor-pointer">
+                                        <span className="text-gray-700 font-medium">Part-time</span>
+                                        <input
+                                            type="checkbox"
+                                            name="partTime"
+                                            checked={filter.partTime}
+                                            onChange={handlefilterchange}
+                                            className="h-5 w-5 text-blue-600 rounded-md border-gray-300 focus:ring-blue-500"
+                                        />
+                                    </label>
+                                </div>
+
+                                {/* Salary Range */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                        Annual Salary (₹ {filter.salary}L)
+                                    </label>
+                                    <input
+                                        type="range"
+                                        name="salary"
+                                        min="0"
+                                        max="100"
+                                        value={filter.salary}
+                                        onChange={handlefilterchange}
+                                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                    />
+                                    <div className="flex justify-between text-xs text-gray-500 mt-2 font-medium">
+                                        <span>₹0L</span>
+                                        <span>₹50L</span>
+                                        <span>₹100L</span>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* 3. Fixed Bottom Action Bar */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-white border-t p-4 flex gap-3 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+
+                            <button
+                                onClick={() => {
+                                    // Apply logic here
+                                    setisFiltervisible(false);
+                                }}
+                                className="flex-[2] py-3.5 px-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all"
+                            >
+                                Apply Filters
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -222,7 +222,7 @@ const index = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="p-6 space-y-6">
+                        <div className="p-6 ">
                             {/* Resume Section */}
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 mb-2">

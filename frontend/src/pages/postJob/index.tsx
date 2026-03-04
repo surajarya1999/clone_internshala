@@ -27,6 +27,7 @@ const index = () => {
     CTC: "",
     startDate: "",
     AdditionalInfo: "",
+    Experience: "",
   });
   const router = useRouter();
   const [isloading, setisloading] = useState(false);
@@ -267,6 +268,22 @@ const index = () => {
                   type="date"
                   name="startDate"
                   value={formData.startDate}
+                  onChange={handleChange}
+                  className="text-black mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  <div className="flex items-center mb-1">
+                    <Info className="h-4 w-4 mr-1" />
+                    Experience*
+                  </div>
+                </label>
+                <input
+                  type="text"
+                  name="Experience"
+                  value={formData.Experience}
                   onChange={handleChange}
                   className="text-black mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />

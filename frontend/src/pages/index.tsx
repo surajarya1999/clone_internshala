@@ -11,6 +11,7 @@ import {
   Banknote,
   Calendar,
   ChevronRight,
+  Info,
   MapPin,
 } from "lucide-react";
 import axios from "axios";
@@ -91,7 +92,7 @@ export default function SvgSlider() {
       pattern: "pattern-1",
       title: "Start Your Career Journey",
       bgColor: "bg-indigo-600",
-      
+
     },
     {
       pattern: "pattern-2",
@@ -180,9 +181,9 @@ export default function SvgSlider() {
                           width="20"
                           height="20"
                           patternUnits="userSpaceOnUse"
-                        
+
                         >
-                          <circle cx="10" cy="10" r="3" fill="white"  />
+                          <circle cx="10" cy="10" r="3" fill="white" />
                         </pattern>
                       )}
                       {slide.pattern === "pattern-2" && (
@@ -260,8 +261,8 @@ export default function SvgSlider() {
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full transition-colors ${selectedCategory === category
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
               >
                 {category}
@@ -269,7 +270,7 @@ export default function SvgSlider() {
             ))}
           </div>
         </div>
-        {/* INternship grid   */}
+        {/* Internship grid   */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {filteredInternships.map((internship: any, index: any) => (
             <div
@@ -295,7 +296,7 @@ export default function SvgSlider() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar size={18} />
-                  <span>{internship.duration}</span>
+                  <span>{internship.startDate}</span>
                 </div>
               </div>
               <div className="flex items-center justify-between mt-6">
@@ -339,8 +340,9 @@ export default function SvgSlider() {
                     <Banknote size={18} />
                     <span>{job.CTC}</span>
                   </div>
+                  
                   <div className="flex items-center gap-2">
-                    <Calendar size={18} />
+                    <Info size={18} />
                     <span>{job.Experience}</span>
                   </div>
                 </div>

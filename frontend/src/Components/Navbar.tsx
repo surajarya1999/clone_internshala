@@ -1,22 +1,19 @@
 import { Search, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { auth, provider } from "../firebase/firebase";
 import { toast } from "react-toastify";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { selectuser } from '@/Feature/Userslice';
 import { useSelector } from 'react-redux';
-
-
-interface User {
-    name: string;
-    email: string;
-    photo: string;
-}
+import { useLanguage } from '@/lib/i18n/LanguageContext';  // ✅ NEW
+import LanguageSwitcher from './LanguageSwitcher';          // ✅ NEW
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const user = useSelector(selectuser);
+    const { t } = useLanguage();  // ✅ NEW
+
     const handlelogin = async () => {
         try {
             await signInWithPopup(auth, provider);
@@ -25,52 +22,59 @@ const Navbar = () => {
             console.error(error);
             toast.error("login failed");
         }
-        // setuser({
-        //   name: "Rahul",
-        //   email: "xyz@gmail.com",
-        //   photo:
-        //     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=faces",
-        // });
     };
+
     const handlelogout = () => {
         signOut(auth);
     };
+
     return (
         <div className="relative">
             <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
 
-                        {/* 1. Logo Section */}
+                        {/* 1. Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <a href="/">
                                 <img src="/logo.png" alt="Logo" className="h-17 w-auto object-contain" />
                             </a>
                         </div>
 
-                        {/* 2. Desktop Navigation (Hidden on Mobile) */}
+                        {/* 2. Desktop Navigation */}
                         <div className="hidden md:flex items-center space-x-6 flex-1 justify-center">
-                            <Link href="/internship" className="text-gray-600 hover:text-blue-600 font-medium">Internships</Link>
-                            <Link href="/job" className="text-gray-600 hover:text-blue-600 font-medium">Jobs</Link>
+                            <Link href="/internship" className="text-gray-600 hover:text-blue-600 font-medium">
+                                {t("Internships")} {/* ✅ */}
+                            </Link>
+                            <Link href="/job" className="text-gray-600 hover:text-blue-600 font-medium">
+                                {t("Jobs")} {/* ✅ */}
+                            </Link>
 
                             <div className="relative">
                                 <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full px-4 py-1.5 focus-within:bg-white transition-all">
                                     <Search size={14} className="text-gray-400" />
-                                    <input type="text" placeholder="Search..." className="ml-2 bg-transparent focus:outline-none text-sm w-32 lg:w-48" />
+                                    <input
+                                        type="text"
+                                        placeholder={t("search")} // ✅
+                                        className="ml-2 bg-transparent focus:outline-none text-sm w-32 lg:w-48"
+                                    />
                                 </div>
                             </div>
                         </div>
 
-                        {/* 3. Right Side (Auth + Mobile Menu Button) */}
+                        {/* 3. Right Side */}
                         <div className="flex items-center space-x-3">
-                            {/* Desktop Auth (Always visible on Desktop) */}
+
+                            {/* Desktop Auth */}
                             <div className="hidden md:flex items-center space-x-3">
                                 {user ? (
                                     <div className="flex items-center space-x-3 bg-gray-50 p-1 pr-3 rounded-full border border-gray-100">
                                         <Link href="/profile">
                                             <img src={user.photo} alt="Profile" className="w-8 h-8 rounded-full border border-white shadow-sm" />
                                         </Link>
-                                        <button onClick={handlelogout} className="text-xs font-semibold text-red-500 uppercase">Logout</button>
+                                        <button onClick={handlelogout} className="text-xs font-semibold text-red-500 uppercase">
+                                            {t("logout")} {/* ✅ */}
+                                        </button>
                                     </div>
                                 ) : (
                                     <>
@@ -81,14 +85,19 @@ const Navbar = () => {
                                                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                                                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                                             </svg>
-                                            <span>Continue with Google</span>
+                                            <span>{t("login")}</span> {/* ✅ */}
                                         </button>
-                                        <a href="/adminlogin" className="text-sm font-medium text-gray-500">Admin</a>
+                                        <a href="/adminlogin" className="text-sm font-medium text-gray-500">
+                                            {t("admin")} {/* ✅ */}
+                                        </a>
                                     </>
                                 )}
+
+                                {/* ✅ Language Switcher — desktop */}
+                                <LanguageSwitcher />
                             </div>
 
-                            {/* MOBILE MENU BUTTON (Only visible on Mobile) */}
+                            {/* Mobile Menu Button */}
                             <button
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
@@ -99,20 +108,33 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* 4. MOBILE DRAWER (Slide Down Menu) */}
+                {/* 4. Mobile Drawer */}
                 {isMenuOpen && (
                     <div className="md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-6 space-y-4 shadow-xl">
-                        <Link href="/internship" className="block text-lg font-medium text-gray-700 py-2">Internships</Link>
-                        <Link href="/job" className="block text-lg font-medium text-gray-700 py-2 border-b border-gray-50">Jobs</Link>
+                        <Link href="/internship" className="block text-lg font-medium text-gray-700 py-2">
+                            {t("internships")} {/* ✅ */}
+                        </Link>
+                        <Link href="/job" className="block text-lg font-medium text-gray-700 py-2 border-b border-gray-50">
+                            {t("jobs")} {/* ✅ */}
+                        </Link>
 
-                        <div className="pt-4 space-y-4">
+                        {/* ✅ Language Switcher — mobile */}
+                        <div className="pt-2">
+                            <LanguageSwitcher />
+                        </div>
+
+                        <div className="pt-2 space-y-4">
                             {user ? (
                                 <div className="flex items-center justify-between bg-gray-50 p-3 rounded-xl">
                                     <div className="flex items-center gap-3">
                                         <img src={user.photo} className="w-10 h-10 rounded-full" />
-                                        <span className="font-semibold text-gray-800">My Profile</span>
+                                        <span className="font-semibold text-gray-800">
+                                            {t("myProfile")} {/* ✅ */}
+                                        </span>
                                     </div>
-                                    <button onClick={handlelogout} className="text-red-500 font-bold text-sm uppercase">Logout</button>
+                                    <button onClick={handlelogout} className="text-red-500 font-bold text-sm uppercase">
+                                        {t("logout")} {/* ✅ */}
+                                    </button>
                                 </div>
                             ) : (
                                 <div className="flex flex-col gap-3">
@@ -123,9 +145,13 @@ const Navbar = () => {
                                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                                         </svg>
-                                        <span className="font-semibold text-gray-500">Sign in with Google</span>
+                                        <span className="font-semibold text-gray-500">
+                                            {t("signIn")} {/* ✅ */}
+                                        </span>
                                     </button>
-                                    <a href="/adminlogin" className="text-center text-gray-500 py-2">Admin Login</a>
+                                    <a href="/adminlogin" className="text-center text-gray-500 py-2">
+                                        {t("adminLogin")} {/* ✅ */}
+                                    </a>
                                 </div>
                             )}
                         </div>
@@ -136,5 +162,4 @@ const Navbar = () => {
     );
 };
 
-
-export default Navbar
+export default Navbar;

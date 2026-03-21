@@ -4,10 +4,11 @@ import "@/styles/globals.css";
 import { store } from "../store/store";
 import type { AppProps } from "next/app";
 import { Provider, useDispatch } from "react-redux";
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import { login, logout } from "@/Feature/Userslice";
 import { auth } from "@/firebase/firebase";
 import { ToastContainer } from "react-toastify";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   function AuthListener() {
@@ -33,13 +34,15 @@ export default function App({ Component, pageProps }: AppProps) {
   }
   return (
     <Provider store={store}>
-      <AuthListener />
-      <div className="bg-white">
-        <Navbar />
-        <ToastContainer />
-        <Component {...pageProps} />
-        <Footer />
-      </div>
+      <LanguageProvider>
+        <AuthListener />
+        <div className="bg-white">
+          <Navbar />
+          <ToastContainer />
+          <Component {...pageProps} />
+          <Footer />
+        </div>
+      </LanguageProvider>
     </Provider>
   );
 

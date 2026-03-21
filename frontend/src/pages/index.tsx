@@ -14,10 +14,10 @@ import {
   MapPin,
 } from "lucide-react";
 import axios from "axios";
-import { useLanguage } from "@/lib/i18n/LanguageContext"; // ✅ NEW
+import { useLanguage } from "@/lib/i18n/LanguageContext"; 
 
 export default function SvgSlider() {
-  const { t } = useLanguage(); // ✅ NEW
+  const { t } = useLanguage(); 
 
   const categories = [
     "Big Brands",
